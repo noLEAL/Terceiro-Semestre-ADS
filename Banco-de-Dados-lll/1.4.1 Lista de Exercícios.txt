@@ -1,0 +1,8 @@
+1. Realize uma consulta mysql para exibir todas as gravadoras;
+SELECT nome FROM  gravadora
+2. Realize uma consulta mysql para mostrar todos os discos da gravadora Atlantic;
+SELECT nome FROM  gravadora
+3. Realize uma consulta mysql para mostrar todas as musicas e seus respectivos albuns da gravadora Atlantic
+
+4. Realize uma consulta mysql para mostrar todas as musicas do estilo Rock
+5. Realize uma consulta mysql para apresentar todas as musicas, mas concatenando ''Album - Musica''

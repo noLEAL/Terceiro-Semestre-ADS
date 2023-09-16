@@ -1,0 +1,13 @@
+1. Realize uma consulta mysql para exibir todos os albuns;
+select nome from album;
+2. Realize uma consulta mysql para exibir a banda e o nome do album;
+select banda,nome from album;
+3. Realize uma consulta mysql para exibir a banda com nome da coluna como conjunto e o nome do album como  NomeDoAlbum;
+
+4. Realize uma consulta mysql para exibir a banda com nome da coluna como conjunto e o nome do album como  NomeDoAlbum que sejam do estilo Rock e suas variações (ex: Hard Rock)
+5. Realize uma consulta mysql para exibir a banda com nome da coluna como conjunto e o nome do album como  NomeDoAlbum que sejam do estilo Rock e suas variações (ex: Hard Rock) em ordem alfabética pelo nome da álbum
+6. Realize uma consulta mysql para exibir a banda com nome da coluna como conjunto e o nome do album como  NomeDoAlbum que sejam do estilo Rock e suas variações (ex: Hard Rock) em ordem alfabética pelo nome da álbum, limitado a 2 albuns
+7. Realize uma consulta mysql para exibir a banda com nome da coluna como conjunto e o nome do album como  NomeDoAlbum que sejam do estilo Rock e suas variações (ex: Hard Rock) em ordem alfabética pelo nome da álbum, a partir do 3o album limitado a 2 albuns
+8. Realize uma consulta mysql para exibir a banda com nome da coluna como conjunto, o nome do album como NomeDoAlbum e nome da gravadora como Gravadora que sejam do estilo Rock e suas variações (ex: Hard Rock) em ordem alfabética pelo nome da banda
+9. Realize uma consulta mysql para exibir a banda com nome da coluna como conjunto, o nome do album como NomeDoAlbum, nome da gravadora como Gravadora e data de lançamento do disco que sejam do estilo Rock e suas variações (ex: Hard Rock) em ordem alfabética pelo nome da banda
+10. Realize uma consulta mysql para exibira quantidade de bandas de cada estilo de gravadora que possua "Atlantic" no nome
