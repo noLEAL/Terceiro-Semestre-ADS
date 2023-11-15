@@ -48,9 +48,6 @@ public class Main {
         Ordenar testOrder = new Ordenar();
         Ordenar.semPrioridade(processo, tempoChegada);
 
-
-        /*
-
         while (true) {
             System.out.println("=".repeat(100));
 
@@ -83,29 +80,7 @@ public class Main {
 
                     }
 
-//                    int tempo = 0;
-//                    int restante = 0;
-//
-//                    Ordenar newTest = new Ordenar();
-//                    Ordenar.semPrioridade(processo, tempoChegada);
-//
-//
-//                    for (int i = 0; i < parts.length; i++){
-//
-//                        //System.out.printf("Processo: %s, Tempo de Execução: %s, Tempo Restante: %s \n", processo[i], tempoExecucao[i], tempoRestante[i]);
-//                        restante = Integer.parseInt(tempoRestante[i]);
-//
-//                        //precisso testar as o tempó de chegada antes de executar o processo
-//
-//
-//                        for (int j = 0; j < Integer.parseInt(tempoExecucao[i]); j++){
-//
-//                            System.out.printf("Tempo[%s] : Processo[%s] : Tempo Restante[%s]\n", tempo, processo[i], restante);
-//                            tempo++;
-//                            restante--;
-//
-//                        }
-//                    }
+
 
                     System.out.println("Fim do FCFS");
                 }
@@ -138,7 +113,5 @@ public class Main {
                     throw new IllegalStateException("Valor invalido: " + opition);
             }
         }
-
-        */
     }
 }
