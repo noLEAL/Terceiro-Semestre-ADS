@@ -1,6 +1,5 @@
-package org.example;
 
-public class extrairValor {
+public class Extrairvalor {
 
 
     public static String processo(String input) {
@@ -23,14 +22,14 @@ public class extrairValor {
     }
 
     public static String tempoChegada(String input) {
-        int startIndex = input.indexOf("(") + 1;
-        int endIndex = input.lastIndexOf(")");
+        int startIndex = input.indexOf(",") + 1;
+        int endIndex = input.lastIndexOf(",");
         return input.substring(startIndex, endIndex);
     }
 
     public static String prioridade (String input) {
-        int startIndex = input.indexOf("(") + 1;
-        int endIndex = input.lastIndexOf(")");
+        int startIndex = input.indexOf("-") + 1;
+        int endIndex = input.lastIndexOf("-");
         return input.substring(startIndex, endIndex);
     }
 }
