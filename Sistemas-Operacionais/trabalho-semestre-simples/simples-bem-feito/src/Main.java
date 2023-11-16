@@ -8,27 +8,35 @@ public class Main {
         System.out.println("Digite quantidade de processos: ");
         int qtdProcessos = teclado.nextInt();
 
+        qtdProcessos = 3; //<<<<----------------- APAGAR ESSA LINHA
+
         System.out.println("População Manual ou Randomica? (M/R)");
         String pop = teclado.next();
+
+        pop = "M"; //<<<<----------------- APAGAR ESSA LINHA
 
         List<Processo> processosPopulados = new ArrayList<Processo>();
 
         if (pop.equalsIgnoreCase("M")){
 
-            for (int i = 0; i < qtdProcessos; i++){
+//            for (int i = 0; i < qtdProcessos; i++){
+//
+//                System.out.println("Digite o tempo de execução do processo " + i + ": ");
+//                int tempoDeExecucao = teclado.nextInt();
+//
+//                System.out.println("Digite o tempo de chegada do processo " + i + ": ");
+//                int tempoChegada = teclado.nextInt();
+//
+//                System.out.println("Digite a prioridade do processo " + i + ": ");
+//                int prioridade = teclado.nextInt();
+//
+//                processosPopulados.add(new Processo(tempoDeExecucao, tempoChegada, prioridade));
+//
+//            }
+            processosPopulados.add(new Processo(10, 3, 9)); //<<<<----------------- APAGAR ESSA LINHA
+            processosPopulados.add(new Processo(7, 7, 7)); //<<<<----------------- APAGAR ESSA LINHA
+            processosPopulados.add(new Processo(3, 2, 15)); //<<<<----------------- APAGAR ESSA LINHA
 
-                System.out.println("Digite o tempo de execução do processo " + i + ": ");
-                int tempoDeExecucao = teclado.nextInt();
-
-                System.out.println("Digite o tempo de chegada do processo " + i + ": ");
-                int tempoChegada = teclado.nextInt();
-
-                System.out.println("Digite a prioridade do processo " + i + ": ");
-                int prioridade = teclado.nextInt();
-
-                processosPopulados.add(new Processo(tempoDeExecucao, tempoChegada, prioridade));
-
-            }
 
         } else if (pop.equalsIgnoreCase("R")){
 
@@ -43,7 +51,12 @@ public class Main {
 
         imprime_processos(processosPopulados);
 
-        FCFS(processosPopulados);
+        System.out.println("Preemptivo ou não preemptivo? (P/N)");
+        String preemp = teclado.next();
+
+        //FCFS(processosPopulados);
+        SJF(processosPopulados, preemp);
+
 
     }
 
@@ -65,11 +78,33 @@ public class Main {
 
     }
 
-    public static void SJF(List<Processo> processosSJF){
-        //Metodo de ordenação dos processos, utilizando o tempo de chegada dento do Comparator.comparing() . e o .sort() para ordenar o arraylist
-        processosSJF.sort(Comparator.comparing(Processo::getTempoChegada));
+    public static void SJF(List<Processo> processosSJF, String preemp){
+        //Metodo de ordenação dos processos, utilizando de Execusao dento do Comparator.comparing() . e o .sort() para ordenar o arraylist
+        processosSJF.sort(Comparator.comparing(Processo::getTempoDeExecucao));
 
+        if (preemp.equalsIgnoreCase("P")){
 
+//            for (int i = 0; i < processosSJF.size(); i++) {
+//
+//                for (int j = 0; j < processosSJF.get(i).getTempoDeExecucao(); j++) {
+//                    processosFCFS.get(i).setTempoRestante(processosFCFS.get(i).getTempoRestante()-1);
+//                    System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, processosFCFS.get(i).getNome(), processosFCFS.get(i).getTempoRestante());
+//                    tempo++;
+//                }
+//            }
+
+        }else if (preemp.equalsIgnoreCase("N")){
+
+//            for (int i = 0; i < processosSJF.size(); i++) {
+//
+//                for (int j = 0; j < processosSJF.get(i).getTempoDeExecucao(); j++) {
+//                    processosFCFS.get(i).setTempoRestante(processosFCFS.get(i).getTempoRestante()-1);
+//                    System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, processosFCFS.get(i).getNome(), processosFCFS.get(i).getTempoRestante());
+//                    tempo++;
+//                }
+//            }
+
+        }
 
     }
 
@@ -85,7 +120,7 @@ public class Main {
 
     public static void imprime_stats () {
 
-        
+
 
     }
 
