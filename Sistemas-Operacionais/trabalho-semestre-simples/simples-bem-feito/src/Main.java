@@ -36,7 +36,7 @@ public class Main {
 
                 Random random = new Random();
 
-                processosPopulados.add(new Processo(random.nextInt(10)+1, random.nextInt(10)+1, random.nextInt(10)+1, random.nextInt(10)+1));
+                processosPopulados.add(new Processo(random.nextInt(10)+1, random.nextInt(10)+1, random.nextInt(10)+1));
 
             }
         }
@@ -57,14 +57,12 @@ public class Main {
         for (int i = 0; i < processosFCFS.size(); i++) {
 
             for (int j = 0; j < processosFCFS.get(i).getTempoDeExecucao(); j++) {
+                processosFCFS.get(i).setTempoRestante(processosFCFS.get(i).getTempoRestante()-1);
                 System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, processosFCFS.get(i).getNome(), processosFCFS.get(i).getTempoRestante());
                 tempo++;
-                processosFCFS.get(i).setTempoRestante(processosFCFS.get(i).getTempoRestante()-1);
             }
-//            System.out.printf("TEMPO[%s] : processo[%s] restante=%s", tempo, processosFCFS.get(i).getNome(), processosFCFS.get(i).getTempoRestante());
-//            tempo++;
-
         }
+
     }
 
     public static void SJF(List<Processo> processosSJF){
@@ -84,4 +82,12 @@ public class Main {
             System.out.println("Processo: " + processo.getNome() + " | Tempo de Execução: " + processo.getTempoDeExecucao() + " | Tempo Restante: " + processo.getTempoRestante() + " | Tempo de Chegada: " + processo.getTempoChegada() + " | Prioridade: " + processo.getPrioridade());
         }
     }
+
+    public static void imprime_stats () {
+
+        
+
+    }
+
+
 }
