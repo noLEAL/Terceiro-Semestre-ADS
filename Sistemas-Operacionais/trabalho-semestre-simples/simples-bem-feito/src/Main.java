@@ -84,25 +84,37 @@ public class Main {
 
         if (preemp.equalsIgnoreCase("P")){
 
-//            for (int i = 0; i < processosSJF.size(); i++) {
-//
-//                for (int j = 0; j < processosSJF.get(i).getTempoDeExecucao(); j++) {
-//                    processosFCFS.get(i).setTempoRestante(processosFCFS.get(i).getTempoRestante()-1);
-//                    System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, processosFCFS.get(i).getNome(), processosFCFS.get(i).getTempoRestante());
-//                    tempo++;
-//                }
-//            }
+            int tempo = 0;
+
+            for (int i = 0; i < processosSJF.size(); i++) {
+
+                for (int j = 0; j < processosSJF.get(i).getTempoDeExecucao(); j++) {
+                    processosSJF.get(i).setTempoRestante(processosSJF.get(i).getTempoRestante()-1);
+                    System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, processosSJF.get(i).getNome(), processosSJF.get(i).getTempoRestante());
+                    for (int k = 0; k < processosSJF.size(); k++){
+                        if (processosSJF.get(i).getTempoRestante() > processosSJF.get(k).getTempoDeExecucao()){
+                            processosSJF.add(k, processosSJF.get(i));
+                            if (i+1 < processosSJF.size()) {
+                                processosSJF.remove(i+1);
+                            }
+                        }
+                    }
+                    tempo++;
+                }
+            }
 
         }else if (preemp.equalsIgnoreCase("N")){
 
-//            for (int i = 0; i < processosSJF.size(); i++) {
-//
-//                for (int j = 0; j < processosSJF.get(i).getTempoDeExecucao(); j++) {
-//                    processosFCFS.get(i).setTempoRestante(processosFCFS.get(i).getTempoRestante()-1);
-//                    System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, processosFCFS.get(i).getNome(), processosFCFS.get(i).getTempoRestante());
-//                    tempo++;
-//                }
-//            }
+            int tempo = 0;
+
+            for (int i = 0; i < processosSJF.size(); i++) {
+
+                for (int j = 0; j < processosSJF.get(i).getTempoDeExecucao(); j++) {
+                    processosSJF.get(i).setTempoRestante(processosSJF.get(i).getTempoRestante()-1);
+                    System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, processosSJF.get(i).getNome(), processosSJF.get(i).getTempoRestante());
+                    tempo++;
+                }
+            }
 
         }
 
