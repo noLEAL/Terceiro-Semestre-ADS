@@ -54,20 +54,28 @@ public class Main {
         System.out.println("Preemptivo ou não preemptivo? (P/N)");
         String preemp = teclado.next();
 
-        //FCFS(processosPopulados);
-        SJF(processosPopulados, preemp);
+        FCFS(processosPopulados);
+        //SJF(processosPopulados, preemp);
 
 
     }
 
     public static void FCFS(List<Processo> processosFCFS){
 
+        System.out.println("FCFS");
+
         //Metodo de ordenação dos processos, utilizando o tempo de chegada dento do Comparator.comparing() . e o .sort() para ordenar o arraylist
         processosFCFS.sort(Comparator.comparing(Processo::getTempoChegada));
 
         imprime_processos(processosFCFS);
         int tempo = 0;
+        int tempoEspera = 0;
+
         for (int i = 0; i < processosFCFS.size(); i++) {
+
+            if (processosFCFS.get(i) != processosFCFS.get(0)) {
+                tempoEspera =  tempoEspera + processosFCFS.get(i).getTempoDeExecucao();
+            }
 
             for (int j = 0; j < processosFCFS.get(i).getTempoDeExecucao(); j++) {
                 processosFCFS.get(i).setTempoRestante(processosFCFS.get(i).getTempoRestante()-1);
@@ -76,14 +84,19 @@ public class Main {
             }
         }
 
+        System.out.println("Tempo de espera: " + tempoEspera);
+        System.out.println("Tempo médio de espera: " + tempoEspera/processosFCFS.size());
     }
 
     public static void SJF(List<Processo> processosSJF, String preemp){
+
         //Metodo de ordenação dos processos, utilizando de Execusao dento do Comparator.comparing() . e o .sort() para ordenar o arraylist
         processosSJF.sort(Comparator.comparing(Processo::getTempoDeExecucao));
 
-        if (preemp.equalsIgnoreCase("P")){
+        imprime_processos(processosSJF);
 
+        if (preemp.equalsIgnoreCase("P")){
+            System.out.println("SJF Preemptivo");
             int tempo = 0;
 
             for (int i = 0; i < processosSJF.size(); i++) {
@@ -104,7 +117,7 @@ public class Main {
             }
 
         }else if (preemp.equalsIgnoreCase("N")){
-
+            System.out.println("SJF Não Preemptivo");
             int tempo = 0;
 
             for (int i = 0; i < processosSJF.size(); i++) {

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Atualizar Menu</title>
+ <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+ <header>
+ </header>
+ <nav>
+    <a href="index.html" id="pghome">Home</a></li>
+    <a href="gerente.html" id="pggerente">Atualizar Menu do Restaurante</a></li>
+    <a href="cliente.html" id="pgcliente">Cliente</a></li>
+</nav>
+ <main>
+     <form id="menuUpdateForm">
+         <label for="dishName">Nome do Prato:</label>
+         <input type="text" id="dishName" name="dishName">
+
+         <label for="dishDescription">Descrição do Prato:</label>
+         <textarea id="dishDescription" name="dishDescription"></textarea>
+
+         <label for="dishPrice">Preço do Prato:</label>
+         <input type="number" id="dishPrice" name="dishPrice">
+
+         <label for="promoExpiration">Data de Expiração da Promoção:</label>
+        <input type="date" id="promoExpiration" name="promoExpiration">
+
+         <input type="submit" value="Atualizar Menu">
+
+     </form>
+ </main>
+</body>
+</html>
