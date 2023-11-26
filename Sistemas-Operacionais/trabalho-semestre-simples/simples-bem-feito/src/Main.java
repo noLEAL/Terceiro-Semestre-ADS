@@ -54,8 +54,8 @@ public class Main {
         System.out.println("Preemptivo ou não preemptivo? (P/N)");
         String preemp = teclado.next();
 
-        FCFS(processosPopulados);
-        //SJF(processosPopulados, preemp);
+        //FCFS(processosPopulados);
+        SJF(processosPopulados, preemp);
 
 
     }
@@ -97,26 +97,64 @@ public class Main {
 
         if (preemp.equalsIgnoreCase("P")){
             System.out.println("SJF Preemptivo");
+            List<Processo> filaDeProntos = new ArrayList<>();
             int tempo = 0;
 
-            for (int i = 0; i < processosSJF.size(); i++) {
 
-                for (int j = 0; j < processosSJF.get(i).getTempoDeExecucao(); j++) {
-                    processosSJF.get(i).setTempoRestante(processosSJF.get(i).getTempoRestante()-1);
-                    System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, processosSJF.get(i).getNome(), processosSJF.get(i).getTempoRestante());
-                    for (int k = 0; k < processosSJF.size(); k++){
-                        if (processosSJF.get(i).getTempoRestante() > processosSJF.get(k).getTempoDeExecucao()){
-                            processosSJF.add(k, processosSJF.get(i));
-                            if (i+1 < processosSJF.size()) {
-                                processosSJF.remove(i+1);
+            while (!filaDeProntos.isEmpty() || !processosSJF.isEmpty()) {
+
+                for (int i = 0; i < processosSJF.size(); i++) {
+                    filaDeProntos.add(processosSJF.get(i));
+                    processosSJF.remove(i);
+                }
+
+                if (filaDeProntos.size() > 0) {
+                    for (int i = 0; i < filaDeProntos.size(); i++) {
+                        for (int j = 0; j < filaDeProntos.get(i).getTempoDeExecucao(); j++) {
+                            filaDeProntos.get(i).setTempoRestante(filaDeProntos.get(i).getTempoRestante()-1);
+                            System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, filaDeProntos.get(i).getNome(), filaDeProntos.get(i).getTempoRestante());
+                            tempo++;
+
+                            //Verifica se o processo atual tem o tempo restante maior do que o tempo de execução de todos os outros processos na fila de prontos
+                            for (int k = 0; k < filaDeProntos.size(); k++){
+                                if (filaDeProntos.get(i).getTempoRestante() > filaDeProntos.get(k).getTempoDeExecucao()){
+
+                                    filaDeProntos.add(k, filaDeProntos.get(i));
+                                    if (i+1 < filaDeProntos.size()) {
+                                        filaDeProntos.remove(i+1);
+                                    }
+
+                                }
                             }
                         }
+                        if (filaDeProntos.get(i).getTempoRestante() == 0) {
+                            filaDeProntos.remove(i);
+                        }
                     }
-                    tempo++;
                 }
             }
 
+
+//            for (int i = 0; i < processosSJF.size(); i++) {
+//
+//                for (int j = 0; j < processosSJF.get(i).getTempoDeExecucao(); j++) {
+//                    processosSJF.get(i).setTempoRestante(processosSJF.get(i).getTempoRestante()-1);
+//                    System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, processosSJF.get(i).getNome(), processosSJF.get(i).getTempoRestante());
+//                    for (int k = 0; k < processosSJF.size(); k++){
+//                        if (processosSJF.get(i).getTempoRestante() > processosSJF.get(k).getTempoDeExecucao()){
+//                            processosSJF.add(k, processosSJF.get(i));
+//                            if (i+1 < processosSJF.size()) {
+//                                processosSJF.remove(i+1);
+//                            }
+//                        }
+//                    }
+//                    tempo++;
+//                }
+//
+//            }
+
         }else if (preemp.equalsIgnoreCase("N")){
+
             System.out.println("SJF Não Preemptivo");
             int tempo = 0;
 
@@ -130,6 +168,7 @@ public class Main {
             }
 
         }
+        System.out.println("Fim do SJF");
 
     }
 
