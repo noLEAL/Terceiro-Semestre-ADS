@@ -1,11 +1,11 @@
 body {
+    
     font-family: Arial, sans-serif;
     background-image: url('imagens/bg.jpg');
     background-size: cover;
     justify-content: center;
     height: 100vh;
-    
-    
+        
  }
  
  header {                                                                   /* cabeçalho */    
@@ -58,6 +58,13 @@ body {
     border-radius: 10px;
 }
 
+@media (max-width: 600px) {
+    .menu {
+        grid-template-columns: repeat(2, 1fr); /* Reduz o número de colunas para telas pequenas */
+        /* Adicione quaisquer outras alterações de estilo que você deseja para telas pequenas aqui */
+    }
+}
+
 .dish {
     display: flex;
     justify-content: center;
@@ -75,7 +82,7 @@ body {
     background-color: #2F8845;
     border-radius: 8px;
     font-size: 20px; /* Define o tamanho da fonte */
-    margin-bottom: -3px;
+    margin-bottom: -15px;
     padding: 5px;
 }
 
@@ -83,7 +90,7 @@ body {
     border-radius: 5px;
     border: none;
 }
-#menuleter {
+#menuleter {    
     text-align: center; /* Centraliza o texto */
     background-color: #CD2423;
     border-radius: 10px;
@@ -142,4 +149,20 @@ nav a {
     margin-bottom: -3px;
     padding: 5px;
     width: 100%;
+}
+
+#reserva{
+    text-align: center; /* Centraliza o texto */
+    background-color: #CD2423;
+    border-radius: 8px;
+    padding: 5px;
+    font-size: 20px; /* Define o tamanho da fonte */;
+    
+}
+
+#reserva input{
+    border-radius: 5px;
+    border: none;
+    font-size: 20px;
+    
 }

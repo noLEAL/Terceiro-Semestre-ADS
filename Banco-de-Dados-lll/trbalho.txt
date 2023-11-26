@@ -1,0 +1,36 @@
+Stored Procedures -> basicamente consiste em um slot de armazenamento de instruiçoes
+para serem realziada no banco de dados. dentre quais instruçoes ficam pre-salvas
+possui algumas vantagens. 
+Desempenho - armazenada no cashe(memoria rapida)
+Lógica do negocio armazenada no banco - A lógica de banco de dados é mantida no próprio banco
+Segurança -  Administrador do banco possui o poder de liberar apenas determinados 
+procedimentos armazenados para usuarios sem correr o risco de um delet sem where :D
+
+
+"Parâmetros (IN, OUT, INOUT): Você pode declarar parâmetros que a Stored Procedure
+irá receber. IN significa que é um parâmetro de entrada (passado para a procedure),
+OUT significa que é um parâmetro de saída (retornado pela procedure),
+e INOUT indica que o parâmetro pode ser usado para entrada e saída."
+
+DELIMITER //
+
+CREATE PROCEDURE nome_da_procedure( parametro tipo) <- IN, OUT, INOUT
+BEGIN
+    -- Corpo da Stored Procedure (instruções SQL)
+END //
+
+DELIMITER ;
+
+
+Planejamento -> Uso da bd2
+
+Consulta Funcionarios e seus setores e empresas - > 
+
+Atualizar salario dos funcionarios anual  -> Valor em reais
+
+Arasta pra cima de um funcionario ->recebe id parametro 
+
+
+
+
+
