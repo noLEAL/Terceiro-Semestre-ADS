@@ -59,46 +59,44 @@ public class Main {
                     imprime_processos(processosPopulados);
                     break;
                 case 8:
-//                    System.out.println("Digite quantidade de processos: ");
-//                    int qtdProcessos = teclado.nextInt();
-//
-//                    System.out.println("População Manual ou Randomica? (M/R)");
-//                    String pop = teclado.next();
-//
-//                    if (pop.equalsIgnoreCase("M")){
-//
-//                        for (int i = 0; i < qtdProcessos; i++){
-//
-//                            System.out.println("Digite o tempo de execução do processo " + i + ": ");
-//                            int tempoDeExecucao = teclado.nextInt();
-//
-//                            System.out.println("Digite o tempo de chegada do processo " + i + ": ");
-//                            int tempoChegada = teclado.nextInt();
-//
-//                            System.out.println("Digite a prioridade do processo " + i + ": ");
-//                            int prioridade = teclado.nextInt();
-//
-//                            processosPopulados.add(new Processo(tempoDeExecucao, tempoChegada, prioridade));
-//
-//                        }
-//
-//                    } else if (pop.equalsIgnoreCase("R")){
-//
-//                        for (int i = 0; i < qtdProcessos; i++){
-//
-//                            Random random = new Random();
-//
-//                            processosPopulados.add(new Processo(random.nextInt(10)+1, random.nextInt(10)+1, random.nextInt(10)+1));
-//
-//                        }
-//                    }
-//                    imprime_processos(processosPopulados);
+                    System.out.println("Digite quantidade de processos: ");
+                    int qtdProcessos = teclado.nextInt();
 
-                    processosPopulados.add(new Processo(10, 3, 9));
-                    processosPopulados.add(new Processo(7, 7, 7));
-                    processosPopulados.add(new Processo(3, 2, 15));
+                    System.out.println("População Manual ou Randomica? (M/R)");
+                    String pop = teclado.next();
 
+                    if (pop.equalsIgnoreCase("M")){
+
+                        for (int i = 0; i < qtdProcessos; i++){
+
+                            System.out.println("Digite o tempo de execução do processo " + i + ": ");
+                            int tempoDeExecucao = teclado.nextInt();
+
+                            System.out.println("Digite o tempo de chegada do processo " + i + ": ");
+                            int tempoChegada = teclado.nextInt();
+
+                            System.out.println("Digite a prioridade do processo " + i + ": ");
+                            int prioridade = teclado.nextInt();
+
+                            processosPopulados.add(new Processo(tempoDeExecucao, tempoChegada, prioridade));
+
+                        }
+
+                    } else if (pop.equalsIgnoreCase("R")){
+
+                        for (int i = 0; i < qtdProcessos; i++){
+
+                            Random random = new Random();
+
+                            processosPopulados.add(new Processo(random.nextInt(10)+1, random.nextInt(10)+1, random.nextInt(10)+1));
+
+                        }
+                    }
                     imprime_processos(processosPopulados);
+
+//                    processosPopulados.add(new Processo(10, 3, 9));
+//                    processosPopulados.add(new Processo(7, 7, 7));
+//                    processosPopulados.add(new Processo(3, 2, 15));
 
                     break;
                 case 9:
@@ -162,7 +160,7 @@ public class Main {
                     cloneSJF.remove(0);
                 }
 
-                if (filaDeProntos.size() > 0) {
+                if (!filaDeProntos.isEmpty()) {
                     for (int i = 0; i < filaDeProntos.size(); i++) {
                         //int tempoInicioExecucao = tempo;
                         for (int j = 0; j < filaDeProntos.get(i).getTempoDeExecucao(); j++) {
@@ -248,7 +246,7 @@ public class Main {
 
                             tempoEspera =  tempoEspera + filaDeProntosP.get(i).getTempoDeExecucao();
 
-                            //Verifica se o processo atual tem o maior do que o tempo de execução de todos os outros processos na fila de prontos
+                            //Verifica se o processo atual tem o maior do que o tempo de prioridade  de todos os outros processos na fila de prontos
                             for (int k = 0; k < filaDeProntosP.size(); k++){
                                 if (filaDeProntosP.get(i).getPrioridade() > filaDeProntosP.get(k).getPrioridade()){
                                     filaDeProntosP.add(k, filaDeProntosP.get(i));
