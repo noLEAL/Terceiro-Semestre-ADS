@@ -1,4 +1,4 @@
-public class Processo {
+public class Processo implements Cloneable {
 
 
     private static int ultimoNome = 0;
@@ -18,7 +18,14 @@ public class Processo {
     }
     /*===============================================================================================================*/
 
-
+    @Override
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("Cloning not supported", e);
+        }
+    }
 
 
     /*===============================================================================================================*/

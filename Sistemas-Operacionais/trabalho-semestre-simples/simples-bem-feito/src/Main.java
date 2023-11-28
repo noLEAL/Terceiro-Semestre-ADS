@@ -14,22 +14,46 @@ public class Main {
 
             switch (escolha) {
                 case 1:
-                    FCFS(processosPopulados);
+                    List<Processo> cloneFCFS = new ArrayList<>();
+                    for (Processo processo : processosPopulados) {
+                        cloneFCFS.add((Processo) processo.clone());
+                    }
+                    FCFS(cloneFCFS);
                     break;
                 case 2:
-                    SJF(processosPopulados, "P");
+                    List<Processo> cloneSJF = new ArrayList<>();
+                    for (Processo processo : processosPopulados) {
+                        cloneSJF.add((Processo) processo.clone());
+                    }
+                    SJF(cloneSJF, "P");
                     break;
                 case 3:
-                    SJF(processosPopulados, "N");
+                    cloneSJF = new ArrayList<>();
+                    for (Processo processo : processosPopulados) {
+                        cloneSJF.add((Processo) processo.clone());
+                    }
+                    SJF(cloneSJF, "N");
                     break;
                 case 4:
-                    Prioridade(processosPopulados, "P");
+                    List<Processo> clonePrioridade = new ArrayList<>();
+                    for (Processo processo : processosPopulados) {
+                        clonePrioridade.add((Processo) processo.clone());
+                    }
+                    Prioridade(clonePrioridade, "P");
                     break;
                 case 5:
-                    Prioridade(processosPopulados, "N");
+                    clonePrioridade = new ArrayList<>();
+                    for (Processo processo : processosPopulados) {
+                        clonePrioridade.add((Processo) processo.clone());
+                    }
+                    Prioridade(clonePrioridade, "N");
                     break;
                 case 6:
-                    roundRobin(processosPopulados);
+                    List<Processo> cloneRR = new ArrayList<>();
+                    for (Processo processo : processosPopulados) {
+                        cloneRR.add((Processo) processo.clone());
+                    }
+                    roundRobin(cloneRR);
                     break;
                 case 7:
                     imprime_processos(processosPopulados);
@@ -76,10 +100,6 @@ public class Main {
 
                     imprime_processos(processosPopulados);
 
-                    System.out.printf("teste");
-
-
-
                     break;
                 case 9:
                     System.out.println("Saindo...");
@@ -96,8 +116,10 @@ public class Main {
 
         System.out.println("FCFS");
 
+
         //Metodo de ordenação dos processos, utilizando o tempo de chegada dento do Comparator.comparing() . e o .sort() para ordenar o arraylist
         processosFCFS.sort(Comparator.comparing(Processo::getTempoChegada));
+
 
         imprime_processos(processosFCFS);
         int tempo = 0;
@@ -117,7 +139,7 @@ public class Main {
         }
 
         System.out.println("Tempo de espera: " + tempoEspera);
-        System.out.println("Tempo médio de espera: " + tempoEspera/processosFCFS.size());
+        System.out.println("Tempo médio de espera: " + (double) tempoEspera / processosFCFS.size());
     }
 
     public static void SJF(List<Processo> processosSJF, String preemp){
@@ -148,12 +170,11 @@ public class Main {
                             System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, filaDeProntos.get(i).getNome(), filaDeProntos.get(i).getTempoRestante());
                             tempo++;
 
-
-
-                            System.out.printf("temp Espera" + tempoEspera + "\n");
+                            tempoEspera =  tempoEspera + filaDeProntos.get(i).getTempoDeExecucao();
 
                             //Verifica se o processo atual tem o maior do que o tempo de execução de todos os outros processos na fila de prontos
                             for (int k = 0; k < filaDeProntos.size(); k++){
+
                                 if (filaDeProntos.get(i).getTempoRestante() > filaDeProntos.get(k).getTempoDeExecucao()){
                                     filaDeProntos.add(k, filaDeProntos.get(i));
                                     if (i+1 < filaDeProntos.size()) {
@@ -169,24 +190,25 @@ public class Main {
                     }
                 }
             }
+
+            tempoEspera =  tempoEspera - processosSJF.get(0).getTempoDeExecucao();
+
         }else if (preemp.equalsIgnoreCase("N")){
 
             System.out.println("SJF Não Preemptivo");
 
             for (int i = 0; i < processosSJF.size(); i++) {
 
+                if (processosSJF.get(i) != processosSJF.get(0)) {
+                    tempoEspera =  tempoEspera + processosSJF.get(i).getTempoDeExecucao();
+                }
+
                 for (int j = 0; j < processosSJF.get(i).getTempoDeExecucao(); j++) {
-
-                    if (processosSJF.get(i) != processosSJF.get(0)) {
-                        tempoEspera =  tempoEspera + processosSJF.get(i).getTempoDeExecucao();
-                    }
-
                     processosSJF.get(i).setTempoRestante(processosSJF.get(i).getTempoRestante()-1);
                     System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, processosSJF.get(i).getNome(), processosSJF.get(i).getTempoRestante());
                     tempo++;
                 }
             }
-
         }
 
         System.out.println("Tempo de espera: " + tempoEspera);
@@ -205,50 +227,46 @@ public class Main {
         int tempo = 0;
         int tempoEspera = 0;
 
-       if (preemp.equalsIgnoreCase("P")){
+        if (preemp.equalsIgnoreCase("P")){
+            System.out.println("Prioridade Preemptivo");
+            List<Processo> filaDeProntosP = new ArrayList<>();
+            List<Processo> clonePrioridade = new ArrayList<>(processosPrioridade);
 
-
-            System.out.println("SJF Preemptivo");
-            List<Processo> filaDeProntos = new ArrayList<>();
-
-            while (!filaDeProntos.isEmpty() || !processosPrioridade.isEmpty()) {
-
-                for (int i = 0; i < processosPrioridade.size(); i++) {
-                    filaDeProntos.add(processosPrioridade.get(i));
-                    processosPrioridade.remove(i);
+            while (!filaDeProntosP.isEmpty() || !clonePrioridade.isEmpty()) {
+                if (!clonePrioridade.isEmpty()) {
+                    filaDeProntosP.add(clonePrioridade.get(0));
+                    clonePrioridade.remove(0);
                 }
 
-                if (filaDeProntos.size() > 0) {
-                    for (int i = 0; i < filaDeProntos.size(); i++) {
-                        for (int j = 0; j < filaDeProntos.get(i).getTempoDeExecucao(); j++) {
-                            filaDeProntos.get(i).setTempoRestante(filaDeProntos.get(i).getTempoRestante()-1);
-                            System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, filaDeProntos.get(i).getNome(), filaDeProntos.get(i).getTempoRestante());
+                if (!filaDeProntosP.isEmpty()) {
+                    for (int i = 0; i < filaDeProntosP.size(); i++) {
+                        //int tempoInicioExecucao = tempo;
+                        for (int j = 0; j < filaDeProntosP.get(i).getTempoDeExecucao(); j++) {
+                            filaDeProntosP.get(i).setTempoRestante(filaDeProntosP.get(i).getTempoRestante()-1);
+                            System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, filaDeProntosP.get(i).getNome(), filaDeProntosP.get(i).getTempoRestante());
                             tempo++;
 
-                            if (filaDeProntos.get(i) != filaDeProntos.get(0)) {
-                                tempoEspera =  tempoEspera + filaDeProntos.get(i).getTempoDeExecucao();
-                            }
+                            tempoEspera =  tempoEspera + filaDeProntosP.get(i).getTempoDeExecucao();
 
                             //Verifica se o processo atual tem o maior do que o tempo de execução de todos os outros processos na fila de prontos
-                            for (int k = 0; k < filaDeProntos.size(); k++){
-                                if (filaDeProntos.get(i).getPrioridade() > filaDeProntos.get(k).getPrioridade()){
-
-                                    filaDeProntos.add(k, filaDeProntos.get(i));
-                                    if (i+1 < filaDeProntos.size()) {
-                                        filaDeProntos.remove(i+1);
+                            for (int k = 0; k < filaDeProntosP.size(); k++){
+                                if (filaDeProntosP.get(i).getPrioridade() > filaDeProntosP.get(k).getPrioridade()){
+                                    filaDeProntosP.add(k, filaDeProntosP.get(i));
+                                    if (i+1 < filaDeProntosP.size()) {
+                                        filaDeProntosP.remove(i+1);
                                     }
-
+                                    break;
                                 }
                             }
                         }
-                        if (filaDeProntos.get(i).getTempoRestante() == 0) {
-                            filaDeProntos.remove(i);
+                        if (filaDeProntosP.get(i).getTempoRestante() == 0) {
+                            filaDeProntosP.remove(i);
                         }
                     }
                 }
             }
-
-       }else if (preemp.equalsIgnoreCase("N")){
+            tempoEspera =  tempoEspera - processosPrioridade.get(0).getTempoDeExecucao();
+        }else if (preemp.equalsIgnoreCase("N")){
 
             System.out.println("Prioridade Não Preemptivo");
 
@@ -274,6 +292,7 @@ public class Main {
     public static void roundRobin(List<Processo> processosRR) {
         processosRR.sort(Comparator.comparing(Processo::getTempoChegada));
 
+        int gambi = processosRR.size();
 
         Scanner teclado = new Scanner(System.in);
         System.out.println("Digite o Time Slice: ");
@@ -302,7 +321,8 @@ public class Main {
         }
 
         System.out.println("Tempo de espera: " + tempoEspera);
-        System.out.println("Tempo médio de espera: " + (double) tempoEspera / processosRR.size());
+        System.out.printf("Tempo médio de espera: %8.2f\n", (double) tempoEspera / gambi);
+
     }
 
     public static void imprime_processos(List<Processo> processosPopulados) {
