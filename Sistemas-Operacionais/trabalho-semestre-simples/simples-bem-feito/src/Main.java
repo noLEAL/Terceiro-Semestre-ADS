@@ -5,12 +5,20 @@ public class Main {
 
         Scanner teclado = new Scanner(System.in);
         List<Processo> processosPopulados = new ArrayList<>();
-        int escolha;
+        int escolha = -1;
+
+        //usar metodo para popular processos apenas uma unica vez
+        if (escolha == -1){
+            popularProcessos(processosPopulados);
+            escolha++;
+        }
+
+
         do {
             System.out.println("Escolha o algoritmo:");
             System.out.println(" 1=FCFS \n 2=SJF Preemptivo \n 3=SJF Não Preemptivo \n 4=Prioridade Preemptivo \n 5=Prioridade Não Preemptivo \n 6=Round Robin \n 7=Imprime lista de processos \n 8=Popular processos novamente \n 9=Sair");
 
-
+            escolha = teclado.nextInt();
 
             switch (escolha) {
                 case 1:
@@ -60,11 +68,8 @@ public class Main {
                     break;
                 case 8:
 
-                      
-
-//                    processosPopulados.add(new Processo(10, 3, 9));
-//                    processosPopulados.add(new Processo(7, 7, 7));
-//                    processosPopulados.add(new Processo(3, 2, 15));
+                    //usar metodo para popular processos
+                    popularProcessos(processosPopulados);
 
                     break;
                 case 9:
@@ -110,7 +115,6 @@ public class Main {
 
     public static void SJF(List<Processo> processosSJF, String preemp){
 
-        //Metodo de ordenação dos processos, utilizando de Execusao dento do Comparator.comparing() . e o .sort() para ordenar o arraylist
         processosSJF.sort(Comparator.comparing(Processo::getTempoDeExecucao));
 
         imprime_processos(processosSJF);
@@ -159,22 +163,67 @@ public class Main {
 
             tempoEspera =  tempoEspera - processosSJF.get(0).getTempoDeExecucao();
 
-        }else if (preemp.equalsIgnoreCase("N")){
+        }else if (preemp.equalsIgnoreCase("N")) {
 
             System.out.println("SJF Não Preemptivo");
+            List<Processo> filaDeProntosNP = new ArrayList<>();
+            int indexMenorTempoChegada = 0;
+            int menorTempoChegada = processosSJF.get(0).getTempoChegada();
 
-            for (int i = 0; i < processosSJF.size(); i++) {
-
-                if (processosSJF.get(i) != processosSJF.get(0)) {
-                    tempoEspera =  tempoEspera + processosSJF.get(i).getTempoDeExecucao();
-                }
-
-                for (int j = 0; j < processosSJF.get(i).getTempoDeExecucao(); j++) {
-                    processosSJF.get(i).setTempoRestante(processosSJF.get(i).getTempoRestante()-1);
-                    System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, processosSJF.get(i).getNome(), processosSJF.get(i).getTempoRestante());
-                    tempo++;
+            for (int i = 1; i < processosSJF.size(); i++) {
+                if (processosSJF.get(i).getTempoChegada() < menorTempoChegada) {
+                    menorTempoChegada = processosSJF.get(i).getTempoChegada();
+                    indexMenorTempoChegada = i;
                 }
             }
+
+            filaDeProntosNP.add(processosSJF.get(indexMenorTempoChegada));
+
+            for (int i = 0; i < processosSJF.size(); i++) {
+                if (i != indexMenorTempoChegada) {
+                    filaDeProntosNP.add(processosSJF.get(i));
+                }
+            }
+
+            int somaTempoExecucao = 0;
+
+            for (Processo processo : processosSJF) {
+                somaTempoExecucao += processo.getTempoDeExecucao();
+            }
+
+
+
+            int totalProcessos = processosSJF.size();
+            int processosCompletados = 0;
+
+            while (processosCompletados < totalProcessos) {
+                    int i = 0;
+                    if (filaDeProntosNP.get(i).getTempoChegada() <= tempo){
+
+                        for (int j = 0; j < filaDeProntosNP.get(i).getTempoDeExecucao(); j++) {
+                            filaDeProntosNP.get(i).setTempoRestante(filaDeProntosNP.get(i).getTempoRestante()-1);
+                            System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, filaDeProntosNP.get(i).getNome(), filaDeProntosNP.get(i).getTempoRestante());
+                            tempo++;
+
+                            tempoEspera = tempoEspera + filaDeProntosNP.get(i).getTempoDeExecucao();
+
+                        }
+
+                        if (filaDeProntosNP.get(i).getTempoRestante() == 0) {
+                            processosCompletados++;
+                        }
+
+                        filaDeProntosNP.remove(i);
+
+                        i++;
+                    }else{
+                        System.out.printf("TEMPO[%s] : Nenhum Processo Chegou \n", tempo);
+                        tempo++;
+                    }
+
+            }
+
+
         }
 
         System.out.println("Tempo de espera: " + tempoEspera);
@@ -297,6 +346,60 @@ public class Main {
         for (Processo processo : processosPopulados) {
             System.out.println("Processo: " + processo.getNome() + " | Tempo de Execução: " + processo.getTempoDeExecucao() + " | Tempo Restante: " + processo.getTempoRestante() + " | Tempo de Chegada: " + processo.getTempoChegada() + " | Prioridade: " + processo.getPrioridade());
         }
+    }
+
+    public static void popularProcessos(List<Processo> processosPopulados){
+
+        Scanner teclado = new Scanner(System.in);
+
+        System.out.println("Digite quantidade de processos: ");
+        int qtdProcessos = teclado.nextInt();
+
+        System.out.println("População Manual ou Randomica? (M/R)");
+        String pop = teclado.next();
+
+        processosPopulados.clear();
+
+
+        Processo processo1 = new Processo(2, 5, 10, 4);
+        Processo processo2 = new Processo(1, 7, 9, 4);
+        Processo processo3 = new Processo(3, 10, 4, 7);
+
+        // Adiciona os processos à lista
+        processosPopulados.add(processo1);
+        processosPopulados.add(processo2);
+        processosPopulados.add(processo3);
+
+//
+//        if (pop.equalsIgnoreCase("M")){
+//
+//            for (int i = 0; i < qtdProcessos; i++){
+//
+//                System.out.println("Digite o tempo de execução do processo " + i + ": ");
+//                int tempoDeExecucao = teclado.nextInt();
+//
+//                System.out.println("Digite o tempo de chegada do processo " + i + ": ");
+//                int tempoChegada = teclado.nextInt();
+//
+//                System.out.println("Digite a prioridade do processo " + i + ": ");
+//                int prioridade = teclado.nextInt();
+//
+//                processosPopulados.add(new Processo(i, tempoDeExecucao, tempoChegada, prioridade));
+//
+//            }
+//
+//        } else if (pop.equalsIgnoreCase("R")){
+//
+//            for (int i = 0; i < qtdProcessos; i++){
+//
+//                Random random = new Random();
+//
+//                processosPopulados.add(new Processo(i, random.nextInt(10)+1, random.nextInt(10)+1, random.nextInt(10)+1));
+//
+//            }
+//        }
+        imprime_processos(processosPopulados);
+
     }
 
 

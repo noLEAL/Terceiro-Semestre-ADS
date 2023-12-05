@@ -9,8 +9,8 @@ public class Processo implements Cloneable {
     int prioridade;
 
     /*===============================================================================================================*/
-    public Processo(int tempoDeExecucao, int tempoChegada, int prioridade) {
-        this.nome = ++ultimoNome;
+    public Processo(int nome, int tempoDeExecucao, int tempoChegada, int prioridade) {
+        this.nome = nome;
         this.tempoDeExecucao = tempoDeExecucao;
         this.tempoRestante = tempoDeExecucao;
         this.tempoChegada = tempoChegada;
@@ -35,6 +35,9 @@ public class Processo implements Cloneable {
     }
 
     public void setNome(int nome) {
+
+
+
         this.nome = nome;
     }
 
