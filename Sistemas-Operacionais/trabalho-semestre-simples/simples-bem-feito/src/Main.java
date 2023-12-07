@@ -68,7 +68,6 @@ public class Main {
                     break;
                 case 8:
 
-                    //usar metodo para popular processos
                     popularProcessos(processosPopulados);
 
                     break;
@@ -87,10 +86,7 @@ public class Main {
 
         System.out.println("FCFS");
 
-
-        //Metodo de ordenação dos processos, utilizando o tempo de chegada dento do Comparator.comparing() . e o .sort() para ordenar o arraylist
         processosFCFS.sort(Comparator.comparing(Processo::getTempoChegada));
-
 
         imprime_processos(processosFCFS);
         int tempo = 0;
@@ -115,228 +111,279 @@ public class Main {
 
     public static void SJF(List<Processo> processosSJF, String preemp){
 
-        processosSJF.sort(Comparator.comparing(Processo::getTempoDeExecucao));
+        processosSJF.sort(Comparator.comparing(Processo::getTempoChegada));
 
         imprime_processos(processosSJF);
+        int totalProcessos =  processosSJF.size();
         int tempo = 0;
         int tempoEspera = 0;
+        int totalTempoEspera = 0;
 
         if (preemp.equalsIgnoreCase("P")){
+
             System.out.println("SJF Preemptivo");
-            List<Processo> filaDeProntos = new ArrayList<>();
-            List<Processo> cloneSJF = new ArrayList<>(processosSJF);
 
-            while (!filaDeProntos.isEmpty() || !cloneSJF.isEmpty()) {
-                if (!cloneSJF.isEmpty()) {
-                    filaDeProntos.add(cloneSJF.get(0));
-                    cloneSJF.remove(0);
-                }
+            List<Processo> filaDeProntosP = new ArrayList<>();
 
-                if (!filaDeProntos.isEmpty()) {
-                    for (int i = 0; i < filaDeProntos.size(); i++) {
-                        //int tempoInicioExecucao = tempo;
-                        for (int j = 0; j < filaDeProntos.get(i).getTempoDeExecucao(); j++) {
-                            filaDeProntos.get(i).setTempoRestante(filaDeProntos.get(i).getTempoRestante()-1);
-                            System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, filaDeProntos.get(i).getNome(), filaDeProntos.get(i).getTempoRestante());
-                            tempo++;
+            int processosCompletados = 0;
+            int tempoDeExecucaoAtual = 0;
+            Processo processoAtual = null;
 
-                            tempoEspera =  tempoEspera + filaDeProntos.get(i).getTempoDeExecucao();
-
-                            //Verifica se o processo atual tem o maior do que o tempo de execução de todos os outros processos na fila de prontos
-                            for (int k = 0; k < filaDeProntos.size(); k++){
-
-                                if (filaDeProntos.get(i).getTempoRestante() > filaDeProntos.get(k).getTempoDeExecucao()){
-                                    filaDeProntos.add(k, filaDeProntos.get(i));
-                                    if (i+1 < filaDeProntos.size()) {
-                                        filaDeProntos.remove(i+1);
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                        if (filaDeProntos.get(i).getTempoRestante() == 0) {
-                            filaDeProntos.remove(i);
-                        }
+            do{
+                for (int i = processosSJF.size() - 1; i >= 0; i--) {
+                    if (processosSJF.get(i).getTempoChegada() <= tempo) {
+                        filaDeProntosP.add(processosSJF.get(i));
+                        processosSJF.remove(i);
                     }
                 }
-            }
 
-            tempoEspera =  tempoEspera - processosSJF.get(0).getTempoDeExecucao();
+                if (!filaDeProntosP.isEmpty()){
+                    filaDeProntosP.sort(Comparator.comparing(Processo::getTempoDeExecucao));
+                    if (processoAtual == null || processoAtual.getTempoRestante() > filaDeProntosP.get(0).getTempoDeExecucao()) {
+                        if (processoAtual != null) {
+                            filaDeProntosP.add(processoAtual);
+                        }
+                        processoAtual = filaDeProntosP.get(0);
+                        filaDeProntosP.remove(0);
+                        tempoDeExecucaoAtual = 0;
+                    }
+
+                    processoAtual.setTempoRestante(processoAtual.getTempoRestante()-1);
+                    System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, processoAtual.getNome(), processoAtual.getTempoRestante());
+                    tempo++;
+                    tempoDeExecucaoAtual++;
+
+                    if (processoAtual.getTempoRestante() == 0){
+                        tempoEspera = tempo - tempoDeExecucaoAtual - processoAtual.getTempoChegada();
+                        totalTempoEspera += tempoEspera;
+                        processoAtual = null;
+                        processosCompletados++;
+                    }
+                } else {
+                    tempoEspera++;
+                    System.out.printf("TEMPO[%s] : Nenhum Processo Chegou \n", tempo);
+                    tempo++;
+                }
+
+            }while (processosCompletados < totalProcessos);
+
+
 
         }else if (preemp.equalsIgnoreCase("N")) {
 
             System.out.println("SJF Não Preemptivo");
+
             List<Processo> filaDeProntosNP = new ArrayList<>();
-            int indexMenorTempoChegada = 0;
-            int menorTempoChegada = processosSJF.get(0).getTempoChegada();
 
-            for (int i = 1; i < processosSJF.size(); i++) {
-                if (processosSJF.get(i).getTempoChegada() < menorTempoChegada) {
-                    menorTempoChegada = processosSJF.get(i).getTempoChegada();
-                    indexMenorTempoChegada = i;
-                }
-            }
-
-            filaDeProntosNP.add(processosSJF.get(indexMenorTempoChegada));
-
-            for (int i = 0; i < processosSJF.size(); i++) {
-                if (i != indexMenorTempoChegada) {
-                    filaDeProntosNP.add(processosSJF.get(i));
-                }
-            }
-
-            int somaTempoExecucao = 0;
-
-            for (Processo processo : processosSJF) {
-                somaTempoExecucao += processo.getTempoDeExecucao();
-            }
-
-
-
-            int totalProcessos = processosSJF.size();
             int processosCompletados = 0;
 
-            while (processosCompletados < totalProcessos) {
-                    int i = 0;
-                    if (filaDeProntosNP.get(i).getTempoChegada() <= tempo){
+            do{
 
-                        for (int j = 0; j < filaDeProntosNP.get(i).getTempoDeExecucao(); j++) {
-                            filaDeProntosNP.get(i).setTempoRestante(filaDeProntosNP.get(i).getTempoRestante()-1);
-                            System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, filaDeProntosNP.get(i).getNome(), filaDeProntosNP.get(i).getTempoRestante());
-                            tempo++;
+                for (int i = processosSJF.size() - 1; i >= 0; i--) {
+                    if (processosSJF.get(i).getTempoChegada() <= tempo) {
+                        filaDeProntosNP.add(processosSJF.get(i));
+                        processosSJF.remove(i);
+                    }
+                }
 
-                            tempoEspera = tempoEspera + filaDeProntosNP.get(i).getTempoDeExecucao();
+                if (filaDeProntosNP.isEmpty()){
+                    tempoEspera++;
+                    System.out.printf("TEMPO[%s] : Nenhum Processo Chegou \n", tempo);
+                    tempo++;
 
-                        }
+                }else{
+                    filaDeProntosNP.sort(Comparator.comparing(Processo::getTempoDeExecucao));
 
-                        if (filaDeProntosNP.get(i).getTempoRestante() == 0) {
-                            processosCompletados++;
-                        }
+                    int tempoInicio = 0;
+                    tempoInicio = tempo;
 
-                        filaDeProntosNP.remove(i);
+                    for (int j = 0; j < filaDeProntosNP.get(0).getTempoDeExecucao(); j++) {
 
-                        i++;
-                    }else{
-                        System.out.printf("TEMPO[%s] : Nenhum Processo Chegou \n", tempo);
+                        filaDeProntosNP.get(0).setTempoRestante(filaDeProntosNP.get(0).getTempoRestante()-1);
+                        System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, filaDeProntosNP.get(0).getNome(), filaDeProntosNP.get(0).getTempoRestante());
                         tempo++;
+
+                        if (filaDeProntosNP.get(0).getTempoRestante() == 0){
+
+                            tempoEspera = tempoInicio - filaDeProntosNP.get(0).getTempoChegada();
+                            totalTempoEspera += tempoEspera;
+
+                            filaDeProntosNP.remove(0);
+                            break;
+                        }
                     }
 
-            }
+                    processosCompletados++;
+                }
 
-
+            }while (processosCompletados < totalProcessos);
         }
 
-        System.out.println("Tempo de espera: " + tempoEspera);
-        System.out.println("Tempo médio de espera: " + (double) tempoEspera / processosSJF.size());
+        System.out.println("totalTempoEspera:" + totalTempoEspera);
+        System.out.println("Tempo de Espera:" + (double) totalTempoEspera/totalProcessos);
 
     }
 
     public static void Prioridade(List<Processo> processosPrioridade, String preemp){
 
-        System.out.println("Prioridade");
-
         //Metodo de ordenação dos processos, utilizando o Prioridade dento do Comparator.comparing() . e o .sort() para ordenar o arraylist
-        processosPrioridade.sort(Comparator.comparing(Processo::getPrioridade));
+        processosPrioridade.sort(Comparator.comparing(Processo::getTempoChegada));
 
         imprime_processos(processosPrioridade);
+        int totalProcessos =  processosPrioridade.size();
         int tempo = 0;
         int tempoEspera = 0;
+        int totalTempoEspera = 0;
 
         if (preemp.equalsIgnoreCase("P")){
+
             System.out.println("Prioridade Preemptivo");
+
             List<Processo> filaDeProntosP = new ArrayList<>();
-            List<Processo> clonePrioridade = new ArrayList<>(processosPrioridade);
 
-            while (!filaDeProntosP.isEmpty() || !clonePrioridade.isEmpty()) {
-                if (!clonePrioridade.isEmpty()) {
-                    filaDeProntosP.add(clonePrioridade.get(0));
-                    clonePrioridade.remove(0);
-                }
+            int processosCompletados = 0;
+            int tempoDeExecucaoAtual = 0;
+            Processo processoAtual = null;
 
-                if (!filaDeProntosP.isEmpty()) {
-                    for (int i = 0; i < filaDeProntosP.size(); i++) {
-                        //int tempoInicioExecucao = tempo;
-                        for (int j = 0; j < filaDeProntosP.get(i).getTempoDeExecucao(); j++) {
-                            filaDeProntosP.get(i).setTempoRestante(filaDeProntosP.get(i).getTempoRestante()-1);
-                            System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, filaDeProntosP.get(i).getNome(), filaDeProntosP.get(i).getTempoRestante());
-                            tempo++;
+            do{
 
-                            tempoEspera =  tempoEspera + filaDeProntosP.get(i).getTempoDeExecucao();
-
-                            //Verifica se o processo atual tem o maior do que o tempo de prioridade  de todos os outros processos na fila de prontos
-                            for (int k = 0; k < filaDeProntosP.size(); k++){
-                                if (filaDeProntosP.get(i).getPrioridade() > filaDeProntosP.get(k).getPrioridade()){
-                                    filaDeProntosP.add(k, filaDeProntosP.get(i));
-                                    if (i+1 < filaDeProntosP.size()) {
-                                        filaDeProntosP.remove(i+1);
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                        if (filaDeProntosP.get(i).getTempoRestante() == 0) {
-                            filaDeProntosP.remove(i);
-                        }
+                for (int i = processosPrioridade.size() - 1; i >= 0; i--) {
+                    if (processosPrioridade.get(i).getTempoChegada() <= tempo) {
+                        filaDeProntosP.add(processosPrioridade.get(i));
+                        processosPrioridade.remove(i);
                     }
                 }
-            }
-            tempoEspera =  tempoEspera - processosPrioridade.get(0).getTempoDeExecucao();
+
+                if (!filaDeProntosP.isEmpty()){
+                    filaDeProntosP.sort(Comparator.comparing(Processo::getPrioridade));
+                    if (processoAtual == null || processoAtual.getTempoRestante() > filaDeProntosP.get(0).getTempoDeExecucao()) {
+                        if (processoAtual != null) {
+                            filaDeProntosP.add(processoAtual);
+                        }
+                        processoAtual = filaDeProntosP.get(0);
+                        filaDeProntosP.remove(0);
+                        tempoDeExecucaoAtual = 0;
+                    }
+
+                    processoAtual.setTempoRestante(processoAtual.getTempoRestante()-1);
+                    System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, processoAtual.getNome(), processoAtual.getTempoRestante());
+                    tempo++;
+                    tempoDeExecucaoAtual++;
+
+                    if (processoAtual.getTempoRestante() == 0){
+                        tempoEspera = tempo - tempoDeExecucaoAtual - processoAtual.getTempoChegada();
+                        totalTempoEspera += tempoEspera;
+                        processoAtual = null;
+                        processosCompletados++;
+                    }
+                } else {
+                    tempoEspera++;
+                    System.out.printf("TEMPO[%s] : Nenhum Processo Chegou \n", tempo);
+                    tempo++;
+                }
+
+            }while (processosCompletados < totalProcessos);
+
+
         }else if (preemp.equalsIgnoreCase("N")){
 
             System.out.println("Prioridade Não Preemptivo");
 
-            for (int i = 0; i < processosPrioridade.size(); i++) {
+            List<Processo> filaDeProntosNP = new ArrayList<>();
 
-                for (int j = 0; j < processosPrioridade.get(i).getTempoDeExecucao(); j++) {
+            int processosCompletados = 0;
 
-                    if (processosPrioridade.get(i) != processosPrioridade.get(0)) {
-                        tempoEspera =  tempoEspera + processosPrioridade.get(i).getTempoDeExecucao();
+            do{
+                for (int i = processosPrioridade.size() - 1; i >= 0; i--) {
+                    if (processosPrioridade.get(i).getTempoChegada() <= tempo) {
+                        filaDeProntosNP.add(processosPrioridade.get(i));
+                        processosPrioridade.remove(i);
+                    }
+                }
+
+                if (filaDeProntosNP.isEmpty()){
+                    tempoEspera++;
+                    System.out.printf("TEMPO[%s] : Nenhum Processo Chegou \n", tempo);
+                    tempo++;
+
+                }else{
+                    filaDeProntosNP.sort(Comparator.comparing(Processo::getTempoDeExecucao));
+
+                    int tempoInicio = 0;
+                    tempoInicio = tempo;
+
+                    for (int j = 0; j < filaDeProntosNP.get(0).getTempoDeExecucao(); j++) {
+
+                        filaDeProntosNP.get(0).setTempoRestante(filaDeProntosNP.get(0).getTempoRestante()-1);
+                        System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, filaDeProntosNP.get(0).getNome(), filaDeProntosNP.get(0).getTempoRestante());
+                        tempo++;
+
+                        if (filaDeProntosNP.get(0).getTempoRestante() == 0){
+
+                            tempoEspera = tempoInicio - filaDeProntosNP.get(0).getTempoChegada();
+                            totalTempoEspera += tempoEspera;
+
+                            filaDeProntosNP.remove(0);
+                            break;
+                        }
                     }
 
-                    processosPrioridade.get(i).setTempoRestante(processosPrioridade.get(i).getTempoRestante()-1);
-                    System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, processosPrioridade.get(i).getNome(), processosPrioridade.get(i).getTempoRestante());
-                    tempo++;
+                    processosCompletados++;
                 }
-            }
+
+            }while (processosCompletados < totalProcessos);
+
        }
 
-        System.out.println("Tempo de espera: " + tempoEspera);
-        System.out.println("Tempo médio de espera: " + (double) tempoEspera / processosPrioridade.size());
+        System.out.println("totalTempoEspera:" + totalTempoEspera);
+        System.out.println("Tempo de Espera:" + (double) totalTempoEspera/totalProcessos);
     }
 
     public static void roundRobin(List<Processo> processosRR) {
-        processosRR.sort(Comparator.comparing(Processo::getTempoChegada));
 
-        int gambi = processosRR.size();
+        imprime_processos(processosRR);
+
+        System.out.println("Round Robin");
 
         Scanner teclado = new Scanner(System.in);
         System.out.println("Digite o Time Slice: ");
         int timeslice = teclado.nextInt();
+
         int tempo = 0;
+        int totalProcessos = processosRR.size();
+        int totalTempoEspera = 0;
 
-        int tempoEspera = 0;
+        boolean fim = true;
 
-        while (!processosRR.isEmpty()) {
-            for (Processo processo : processosRR) {
-                if (processo.getTempoRestante() > 0) {
-                    if (processo.getTempoRestante() > timeslice) {
-                        tempo += timeslice;
-                        processo.setTempoRestante(processo.getTempoRestante() - timeslice);
-                        tempoEspera += timeslice;
-                    } else {
-                        tempo += processo.getTempoRestante();
-                        processo.setTempoRestante(0);
-                        tempoEspera += processo.getTempoRestante();
+        while (fim){
+
+            for (int i = 0; i < processosRR.size(); i++) {
+                for (int j = 0; j < timeslice; j++) {
+
+                    if (processosRR.get(i).getTempoRestante() == 0) {
+
+                        processosRR.remove(i);
+                        break;
                     }
-                    System.out.println("Processo: " + processo.getNome() + " | Tempo de Execução: " + processo.getTempoDeExecucao() + " | Tempo Restante: " + processo.getTempoRestante() + " | Tempo de Chegada: " + processo.getTempoChegada() + " | Prioridade: " + processo.getPrioridade());
+                    totalTempoEspera += tempo - processosRR.get(i).getTempoDeExecucao();
+                    processosRR.get(i).setTempoRestante(processosRR.get(i).getTempoRestante() - 1);
+                    System.out.printf("TEMPO[%s] : processo[%s] restante=%s\n", tempo, processosRR.get(i).getNome(), processosRR.get(i).getTempoRestante());
+                    tempo++;
+
+
+
                 }
             }
 
-            processosRR.removeIf(processo -> processo.getTempoRestante() == 0);
+            if (processosRR.isEmpty()){
+                fim = false;
+            }
+
         }
 
-        System.out.println("Tempo de espera: " + tempoEspera);
-        System.out.printf("Tempo médio de espera: %8.2f\n", (double) tempoEspera / gambi);
+        totalTempoEspera += 1;
+        System.out.println("totalTempoEspera:" + totalTempoEspera);
+        System.out.println("Tempo de Espera:" + totalTempoEspera/totalProcessos);
 
     }
 
@@ -361,43 +408,33 @@ public class Main {
         processosPopulados.clear();
 
 
-        Processo processo1 = new Processo(2, 5, 10, 4);
-        Processo processo2 = new Processo(1, 7, 9, 4);
-        Processo processo3 = new Processo(3, 10, 4, 7);
+        if (pop.equalsIgnoreCase("M")){
 
-        // Adiciona os processos à lista
-        processosPopulados.add(processo1);
-        processosPopulados.add(processo2);
-        processosPopulados.add(processo3);
+            for (int i = 0; i < qtdProcessos; i++){
 
-//
-//        if (pop.equalsIgnoreCase("M")){
-//
-//            for (int i = 0; i < qtdProcessos; i++){
-//
-//                System.out.println("Digite o tempo de execução do processo " + i + ": ");
-//                int tempoDeExecucao = teclado.nextInt();
-//
-//                System.out.println("Digite o tempo de chegada do processo " + i + ": ");
-//                int tempoChegada = teclado.nextInt();
-//
-//                System.out.println("Digite a prioridade do processo " + i + ": ");
-//                int prioridade = teclado.nextInt();
-//
-//                processosPopulados.add(new Processo(i, tempoDeExecucao, tempoChegada, prioridade));
-//
-//            }
-//
-//        } else if (pop.equalsIgnoreCase("R")){
-//
-//            for (int i = 0; i < qtdProcessos; i++){
-//
-//                Random random = new Random();
-//
-//                processosPopulados.add(new Processo(i, random.nextInt(10)+1, random.nextInt(10)+1, random.nextInt(10)+1));
-//
-//            }
-//        }
+                System.out.println("Digite o tempo de execução do processo " + i + ": ");
+                int tempoDeExecucao = teclado.nextInt();
+
+                System.out.println("Digite o tempo de chegada do processo " + i + ": ");
+                int tempoChegada = teclado.nextInt();
+
+                System.out.println("Digite a prioridade do processo " + i + ": ");
+                int prioridade = teclado.nextInt();
+
+                processosPopulados.add(new Processo(i, tempoDeExecucao, tempoChegada, prioridade));
+
+            }
+
+        } else if (pop.equalsIgnoreCase("R")){
+
+            for (int i = 0; i < qtdProcessos; i++){
+
+                Random random = new Random();
+
+                processosPopulados.add(new Processo(i, random.nextInt(10)+1, random.nextInt(10)+1, random.nextInt(10)+1));
+
+            }
+        }
         imprime_processos(processosPopulados);
 
     }

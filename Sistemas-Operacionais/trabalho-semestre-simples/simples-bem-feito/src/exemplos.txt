@@ -1,0 +1,42 @@
+     //RR site
+        Processo processo1 = new Processo(1, 4, 10, 4);
+        Processo processo2 = new Processo(2, 3, 9, 4);
+        Processo processo3 = new Processo(3, 5, 4, 7);
+
+
+        processosPopulados.add(processo1);
+        processosPopulados.add(processo2);
+        processosPopulados.add(processo3);
+
+        //RR site
+
+
+
+        //Exempo Professor SJF e Prioridade
+
+//        Processo processo1 = new Processo(2, 5, 10, 4);
+//        Processo processo2 = new Processo(1, 7, 9, 4);
+//        Processo processo3 = new Processo(3, 10, 4, 7);
+//
+//        processosPopulados.add(processo1);
+//        processosPopulados.add(processo2);
+//        processosPopulados.add(processo3);
+
+        //Exempo Professor SJF e Prioridade
+
+        //Exempo site SJF
+
+//        Processo processo1 = new Processo(1, 6, 2, 4);
+//        Processo processo2 = new Processo(2, 2, 5, 4);
+//        Processo processo3 = new Processo(3, 8, 1, 7);
+//        Processo processo4 = new Processo(4, 3, 0, 7);
+//        Processo processo5 = new Processo(5, 4, 4, 7);
+
+//        // Adiciona os processos à lista
+//        processosPopulados.add(processo1);
+//        processosPopulados.add(processo2);
+//        processosPopulados.add(processo3);
+//        processosPopulados.add(processo4);
+//        processosPopulados.add(processo5);
+
+        //Exempo site SJF
