@@ -1,0 +1,9 @@
+br\edu\ifrs\modelo\Produto.class
+br\edu\ifrs\back\webapp\resources\JakartaEE91Resource.class
+br\edu\ifrs\controller\ApplicationConfig.class
+br\edu\ifrs\controller\UsuariosResource.class
+br\edu\ifrs\back\webapp\JakartaRestConfiguration.class
+br\edu\ifrs\controller\GenericResource.class
+br\edu\ifrs\controller\webServiceSP.class
+br\edu\ifrs\modelo\CadastroUsuario.class
+br\edu\ifrs\modelo\Clientes.class

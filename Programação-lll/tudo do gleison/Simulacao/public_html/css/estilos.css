@@ -1,0 +1,129 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 25 de out. de 2023, 19:51:16
+    Author     : estudante
+*/
+
+body {
+    background-color: #99ccff;
+}
+
+#principal {
+    position: absolute;
+    top: 0px;
+    left: 10%;
+    width: 80%;
+    height: 130%;
+    border: 1px solid #000000;
+    background-color: #ffffff;
+}
+
+#banner {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 182px;
+    width: 100%;
+    background-image: url('../img/banner.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+#menu {
+    position: absolute;
+    top: 182px;
+    left: 0px;
+    height: auto;
+    width: 20%;
+    background-color: #ffffff;
+}
+
+#conteudo {
+    position: absolute;
+    top: 182px;
+    left: 20%;
+    height: auto;
+    width: 56%;
+    background-color: #ffffff;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+#menu_direita {
+    position: absolute;
+    top: 182px;
+    left: 80%;
+    height: auto;
+    width: 20%;
+    background-color: #ffffff;
+}
+
+p {
+    text-align: justify;
+    font-family: Arial;
+    font-size: 12pt;
+}
+
+#menu_direita p {
+    color: #cccccc;
+}
+
+h1 {
+    color: #0000ff;
+    font-family: Arial;
+    font-size: 16pt;
+    text-decoration: underline;
+}
+
+h2 {
+    color: #0000ff;
+    font-family: Arial;
+    font-size: 14pt;
+}
+
+h3 {
+    color: #cccccc;
+    font-family: Arial;
+    font-size: 12pt;
+}
+
+#menu ul {
+    list-style: none;
+    margin-left: -20px;
+    width: 80%;
+}
+
+#menu li {
+    border: 1px solid #000000;
+    /*padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;*/
+    padding: 5px 0px 5px 5px;
+    margin-bottom: 10px;
+    background-color: #0066ff;  
+}
+
+
+#menu li:hover {
+    background-color: #009900;
+}
+
+a {
+    color: #ffffff; 
+    text-decoration: none;
+}
+
+table {
+    width: 100%;
+}
+
+td,th {
+     border: 1px solid #0000FF;
+}
+
+#erros {
+    color: #FF0000;
+}

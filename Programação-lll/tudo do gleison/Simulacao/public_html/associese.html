@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Simulação da Prova</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/estilos.css" rel="stylesheet" type="text/css"/>
+        <script src="js/scripts.js" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    </head>
+    <body onload="popularEstados()">
+        <div id="principal">
+            <div id="banner"></div>
+            <div id="menu">
+                <ul>
+                    <li><a href="index.html">O Clube</a></li>
+                    <li><a href="governanca.html">Governança</a></li>
+                    <li><a href="futebol.html">Futebol</a></li>
+                    <li><a href="competicoes.html">Competições</a></li>
+                    <li><a href="associese.html">Associe-se</a></li>
+                </ul>
+            </div>
+            <div id="conteudo">
+                <h1>Cadastro de Sócio</h1>
+                
+                <ul id="erros"></ul>
+                
+                <form action="" method="post" onsubmit="javascript: return validar()">
+                    <label for="cpf">CPF: </label>
+                    <input type="text" name="cpf" id="cpf" size="15" placeholder="XXX.XXX.XXX-XX" pattern="([0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2})"><br><br>
+                    
+                    <label for="nome">Nome: </label>
+                    <input type="text" name="nome" id="nome" size="40" maxlength="100"><br><br>
+                    
+                    <fieldset>
+                        <legend>Sexo: </legend>
+                        
+                        <input type="radio" name="sexo" id="feminino" size="40" value="F" required="required"><label for="feminino">Feminino</label>
+                        <input type="radio" name="sexo" id="masculino" size="40" value="M" required="required"><label for="masculino">Masculino</label>
+                    </fieldset><br>
+                    
+                    <label for="endereco">Endereço: </label><br>
+                    <textarea name="endereco" id="endereco" rows="5" cols="50"></textarea><br><br>
+                    
+                    <label for="estado">Estado: </label>
+                    <select name="estado" id="estado" onchange="popularCidades()">
+                        <option>-- Selecione um Estado --</option>
+                    </select><br><br>
+                    
+                    <label for="cidade">Cidade: </label>
+                    <select name="cidade" id="cidade">
+                        <option>-- Selecione uma Cidade --</option>
+                    </select><br><br>
+                    
+                    <label for="data">Data de Nascimento </label>
+                    <input type="date" name="data" id="data" size="10" required="required"><br><br>
+                    
+                    <input type="submit" value="Enviar">
+                    <input type="reset" value="Limpar">
+                </form>
+            </div>
+            <div id="menu_direita">
+                <h3>Próximo Jogo</h3>
+                <hr>
+                <p>Grêmio x Flamento</p>
+                <br>
+                <h3>Último Jogo</h3>
+                <hr>
+                <p>Grêmio 2 x 0 Cuiabá</p>
+            </div>
+        </div>
+    </body>
+</html>

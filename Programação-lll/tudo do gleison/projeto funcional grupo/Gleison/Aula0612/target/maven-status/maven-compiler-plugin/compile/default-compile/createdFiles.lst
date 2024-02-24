@@ -1,0 +1,6 @@
+br\edu\ifrs\aula0612\resources\JakartaEE91Resource.class
+br\edu\ifrs\aula0612\ApplicationConfig.class
+br\edu\ifrs\util\Conexao.class
+br\edu\ifrs\aula0612\CamisasResource.class
+br\edu\ifrs\modelo\Camisas.class
+br\edu\ifrs\aula0612\JakartaRestConfiguration.class
